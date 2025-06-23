@@ -1,12 +1,21 @@
+<!-- @format -->
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>home directory</h1>
-    {% block content %}{% endblock %}
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<nav>
+			<a href="/register">register</a>
+			<p>||</p>
+			<a href="/login">login</a>
+		</nav>
+		<h1>home directory</h1>
+		{% block content %}{% endblock %}
+	</body>
 </html>
