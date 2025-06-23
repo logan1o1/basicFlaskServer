@@ -5,7 +5,6 @@ from flask_bcrypt import Bcrypt
 import os, re
 
 app = Flask(__name__, template_folder= "templates")
-app.config.from_object('config.Config')
 
 mongo_uri = "mongodb+srv://saswatm2706:dHjmAXPB73AgFsVW@cluster0.uynsq0f.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(mongo_uri, server_api = ServerApi('1'))
@@ -14,7 +13,7 @@ users_collection = db['users']
 
 bcrypt = Bcrypt(app)
 
-def inValid(email):
+def isValid(email):
     regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
     if re.fullmatch(regex, email):
         return True
@@ -32,6 +31,11 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
+
+        is_valid_email = isValid(email)
+
+        if not is_valid_email:
+            flash("The email is not in the correct format")
 
         hashedPassword = bcrypt.generate_password_hash(password).decode('utf-8')
         
