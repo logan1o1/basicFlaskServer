@@ -49,7 +49,7 @@ def register():
         
         if users_collection.find_one({'username':username}):
             flash("Username already exists, choose a diff one", "warning")
-            return render_template('register.html')
+            return render_template('register.html', registration=False)
         else:
             users_collection.insert_one({
                 'username':username,
@@ -62,9 +62,9 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'GET':
+    if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         user = users_collection.find_one({'username':username})
@@ -72,10 +72,10 @@ def login():
             is_valid = bcrypt.check_password_hash(user["password"], password)
             if is_valid:
                 flash("Login successful", "success")
-                return render_template('index.html')
+                return render_template('index.html', username=user["username"], login=True)
             else:
                 flash("Invalid Password", "danger")
-                return render_template('login.html')
+                return render_template('login.html', login=False)
         else:
             flash("User not found", "warning")
             return render_template('login.html')
